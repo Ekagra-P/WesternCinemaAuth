@@ -1,0 +1,78 @@
+﻿@page
+@model WesternCinemaAuth.Pages.MovieGoers.MyDetailsModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "MyDetails";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>My Details</h2>
+
+@if ((string)ViewData["ExistInDB"] == "true")
+{
+    <h4>Welcome, @UserManager.GetUserName(User)! You can edit your details below. </h4>
+}
+else
+{
+    <h4>Welcome, @UserManager.GetUserName(User)! You should enter your details below before browsing other links. </h4>
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if ((string)ViewData["ExistInDB"] == "true")
+            {
+                @* The value of the email is bound with the model. *@
+                <input type="hidden" asp-for="Myself.Email" />
+            }
+            else
+            {
+                @* The dummy value of the email is only for passing the validation.
+            It won't be used at all.     *@
+                <input type="hidden" asp-for="Myself.Email" value="dummy@dummy.edu" />
+            }
+            <div class="form-group">
+                <label asp-for="Myself.FirstName" class="control-label"></label>
+                <input asp-for="Myself.FirstName" class="form-control" />
+                <span asp-validation-for="Myself.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Myself.LastName" class="control-label"></label>
+                <input asp-for="Myself.LastName" class="form-control" />
+                <span asp-validation-for="Myself.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Myself.Mobile" class="control-label"></label>
+                <input asp-for="Myself.Mobile" class="form-control" />
+                <span asp-validation-for="Myself.Mobile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (ViewData["SuccessDB"] != null)
+{
+    <hr />
+    <h5>
+        Thanks. You have successfully updated your details with your name
+        <strong>@Model.Myself.FirstName @Model.Myself.LastName</strong>
+        and your mobile number <strong>@Model.Myself.Mobile</strong>.
+    </h5>
+    <h5> You can start browsing other links now.</h5>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+

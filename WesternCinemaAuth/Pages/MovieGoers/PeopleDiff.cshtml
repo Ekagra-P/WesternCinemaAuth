@@ -1,0 +1,85 @@
+﻿@page
+@model WesternCinemaAuth.Pages.MovieGoers.PeopleDiffModel
+@{
+    ViewData["Title"] = "MovieGoer Differences";
+}
+
+<h4>The differences between Moviegoers in choosing movies</h4>
+<p>Specifically, this page allows you to find out the movies watched by Moviegoer A but not Moviegoer B.</p>
+
+<div class="row">
+    <div class="col-md-6">
+        @* by default, a method="post" form will be rendered. *@
+        <form asp-action="PeopleDiff">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* The class m-3 is for Generating some margin between input devices .*@
+            <div class="form-group m-3">
+                <label asp-for="MovieGoersInput.MovieGoerA" class="control-label">Moviegoer A</label>
+                <select asp-for="MovieGoersInput.MovieGoerA" class="form-control" asp-items="ViewBag.MovieGoerList"></select>
+                <span asp-validation-for="MovieGoersInput.MovieGoerA" class="text-danger"></span>
+            </div>
+            <div class="form-group m-3">
+                <label asp-for="MovieGoersInput.MovieGoerB" class="control-label">Moviegoer B</label>
+                <select asp-for="MovieGoersInput.MovieGoerB" class="form-control" asp-items="ViewBag.MovieGoerList"></select>
+                <span asp-validation-for="MovieGoersInput.MovieGoerB" class="text-danger"></span>
+            </div>
+            <div class="form-group m-3">
+                <input type="submit" value="Compare" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Check this page is requested for the first time or after 'post' method.
+    If 'post', then display the comparison results. *@
+@if (Model.DiffMovies != null)
+{
+    <div>
+        <hr />
+        @if (Model.DiffMovies.Count == 0)
+        {
+            <h4>
+                There is no movie watched by MovieGoer A, but not by MovieGoerB.
+            </h4>
+        }
+        else
+        {
+            <table class="table">
+                <!-- .table is a Bootstrap class giving table styles -->
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiffMovies[0].Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiffMovies[0].Genre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DiffMovies[0].Price)
+                    </th>
+                </tr>
+
+                @foreach (var item in Model.DiffMovies)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Genre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+}
+
+@* Inlcude JavaScript for client-side vaildations.*@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

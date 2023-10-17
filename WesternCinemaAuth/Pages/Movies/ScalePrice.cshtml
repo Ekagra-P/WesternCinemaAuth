@@ -1,0 +1,40 @@
+﻿@page
+@model WesternCinemaAuth.Pages.Movies.ScalePriceModel
+@{
+    ViewData["Title"] = "Scale Movie Price";
+}
+
+<h2>Scale Movie Price</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="ScalePrice">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* The class m-3 is for Generating some margin between input devices .*@
+            <div class="form-group m-3">
+                <label asp-for="FactorInput.Factor" class="control-label">Please enter the factor to be multiplied with movie prices:</label>
+                <input asp-for="FactorInput.Factor" class="form-control" />
+                <span asp-validation-for="FactorInput.Factor" class="text-danger"></span>
+            </div>
+            <div class="form-group m-3">
+                <input type="submit" value="Scale Price" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Check this is invoked by 'get' or 'post' version of ScalePrice().
+    If 'post' version, display the results. *@
+@if (ViewData["RowsAffected"] != null)
+{
+    <hr />
+    <h3>Success: The prices of all @ViewData["RowsAffected"] movies have been multiplied with @Model.FactorInput.Factor.</h3>
+}
+
+@* Inlcude JavaScript for client-side vaildations.*@
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

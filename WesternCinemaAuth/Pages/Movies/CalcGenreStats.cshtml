@@ -1,0 +1,35 @@
+﻿@page
+@model WesternCinemaAuth.Pages.Movies.CalcGenreStatsModel
+@{
+    ViewData["Title"] = "CalcGenreStats";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h2>Movie Statistics based on Genre</h2>
+<br />
+
+<div>
+    @* .table is a Bootstrap class specifying table styles *@
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.GenreStats[0].Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.GenreStats[0].MovieCount)
+            </th>
+        </tr>
+
+        @foreach (var item in Model.GenreStats)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieCount)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

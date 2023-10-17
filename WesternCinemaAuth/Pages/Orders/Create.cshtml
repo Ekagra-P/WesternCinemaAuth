@@ -1,0 +1,52 @@
+﻿@page
+@model WesternCinemaAuth.Pages.Orders.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@* <h1>Create</h1> *@
+
+<h4>Create Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* The class m-2 is for Generating some margin between input devices .*@
+            <div class="form-group m-2">
+                <label asp-for="Order.MovieID" class="control-label">Movie Title</label>
+                <select asp-for="Order.MovieID" class="form-control" asp-items="ViewBag.MovieID"></select>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Order.MovieGoerEmail" class="control-label">MovieGoer Full Name</label>
+                <select asp-for="Order.MovieGoerEmail" class="form-control" asp-items="ViewBag.MovieGoerEmail"></select>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Order.TicketCount" class="control-label"></label>
+                <input asp-for="Order.TicketCount" class="form-control" />
+                <span asp-validation-for="Order.TicketCount" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                @* <label asp-for="Order.TotalPrice" class="control-label"></label> *@
+                @* Make the type "hidden", and the value = 0 to be in the valid range. *@
+                <input type="hidden" asp-for="Order.TotalPrice" value="0" class="form-control" />
+                @* <span asp-validation-for="Order.TotalPrice" class="text-danger"></span> *@
+            </div>
+            <div class="form-group m-2">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

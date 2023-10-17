@@ -1,0 +1,67 @@
+﻿@page
+@model WesternCinemaAuth.Pages.Orders.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            @* Rearranging the order of the columns is needed if the scaffolding
+            doesn't do a good job.
+            *@
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].TheMovie)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].TheMovieGoer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].TicketCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order[0].TotalPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Order)
+        {
+            <tr>
+                @* Rearranging the order of the columns is needed if the scaffolding
+            doesn't do a good job.
+            *@
+                <td>
+                    @* @Html.DisplayFor(modelItem => item.TheMovie.Genre) *@
+                    @* The warning about a possible null reference is fine. *@
+                    @Html.DisplayFor(modelItem => item.TheMovie.Title)
+                </td>
+                <td>
+                    @* @Html.DisplayFor(modelItem => item.TheMovieGoer.Email) *@
+                    @Html.DisplayFor(modelItem => item.TheMovieGoer.FirstName)
+                    @Html.DisplayFor(modelItem => item.TheMovieGoer.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
